@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/paquete'
+const url = 'https://back-cnji.onrender.com/api/paquete'
 const listarPaquete = async() => {
     let body = document.getElementById('contenido')
     if(body){
