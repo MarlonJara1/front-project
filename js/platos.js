@@ -51,6 +51,8 @@ const registarPlato = async() =>{
         .then(response => response.json())
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarPla.html'
+
         })
     }
     else{
@@ -98,6 +100,8 @@ const actualizarPlato = async() =>{
         .then(response => response.json())
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarPla.html'
+
         })
     }
     else{
