@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/ingrediente'
+const url = 'https://back-cnji.onrender.com/api/ingrediente'
 const listarIngredientes = async() => {
     let body = document.getElementById('contenido')
     if(body){
