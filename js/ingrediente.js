@@ -51,6 +51,8 @@ const registrarIngrediente = async() => {
         .then(response => response.json())
         .then(json => {
             alert(json.mensaje)
+            window.location.href = 'listarIng.html'
+
         })
     }
     else {
@@ -99,6 +101,8 @@ const actualizarIngrediente = async() =>{
         .then(response => response.json())
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarIng.html'
+
         })
     }
     else{
