@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/plato'
+const url = 'https://back-cnji.onrender.com/api/plato'
 const listarPlato = async() => {
     let body = document.getElementById('contenido')
     if(body){
