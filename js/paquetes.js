@@ -51,6 +51,8 @@ const registrarPaquete = async() =>{
         .then(response => response.json())
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarPa.html'
+
         })
     }
     else{
@@ -98,6 +100,8 @@ const actualizarPaquete = async() =>{
         .then(response => response.json())
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarPa.html'
+
         })
     }
     else{
