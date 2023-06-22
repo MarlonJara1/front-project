@@ -46,6 +46,8 @@ const registrarDetalle = async() => {
         .then(response => response.json())
         .then(json => {
             alert(json.mensaje)
+                       window.location.href = 'listarDe.html'
+
         })
     }
     else {
@@ -90,6 +92,8 @@ const actualizarDetalle = async() =>{
         .then(response => response.json()) 
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarDe.html'
+
         })
     }
     else{
