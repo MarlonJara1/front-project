@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/categoria'
+const url = 'https://back-cnji.onrender.com/api/categoria'
 const listarCategorias = async() => {
     let body = document.getElementById('contenido')
     if(body){
