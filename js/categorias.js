@@ -48,6 +48,8 @@ const registrarCategorias = async() => {
         .then(response => response.json())
         .then(json => {
             alert(json.mensaje)
+            window.location.href = 'listarCa.html'
+
         })
     }
     else {
@@ -92,6 +94,8 @@ const actualizarCategoria = async() =>{
         .then(response => response.json()) 
         .then(json => {
            alert(json.mensaje)
+            window.location.href = 'listarCa.html'
+ 
         })
     }
     else{
