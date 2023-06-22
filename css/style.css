@@ -1,0 +1,9 @@
+nav {
+    background-color: #000;
+  }
+  nav ul li a {
+    color: #fff;
+  }
+  nav ul li a:hover {
+    background-color: #222;
+  }

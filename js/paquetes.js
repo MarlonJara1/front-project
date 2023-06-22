@@ -26,38 +26,37 @@ const listarPaquete = async() => {
 
 listarPaquete()
 
-const registrarPaquete = async() => {
+const registrarPaquete = async() =>{
+
     let nombrePaquete = document.getElementById('nombrePaquete').value
     let descripcionPaquete = document.getElementById('descripcionPaquete').value
     let precioPaquete = document.getElementById('precioPaquete').value
     let estadoPaquete = document.getElementById('estadoPaquete').value
+    
 
     let paquete = {
         nombrePaquete: nombrePaquete,
         descripcionPaquete: descripcionPaquete,
         precioPaquete: precioPaquete,
-        estadoPaquete: estadoPaquete,
+        estadoPaquete: estadoPaquete,   
     }
 
-    let nombreRegex = /^[a-zA-Z\s]+$/
-
-    if (nombrePaquete !== '' && nombreRegex.test(nombrePaquete) && parseFloat(precioPaquete) >= 0) {
+    if((!nombrePaquete == '')){
         fetch(url, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify(paquete),
+            body:JSON.stringify(paquete),
             headers: {"Content-type": "application/json; charset=UTF-8"}     
         })
         .then(response => response.json())
         .then(json => {
-            alert(json.mensaje)
+           alert(json.mensaje)
         })
     }
-    else {
-        alert('Verifica los datos ingresados')
+    else{
+        alert('El nombre debe ser obligatorio')
     }
 }
-
 
 const editar = (paquete) =>{
     document.getElementById('_id').value = ''

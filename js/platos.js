@@ -41,7 +41,7 @@ const registarPlato = async() =>{
         estadoPlato: estadoPlato,
     }
 
-    if((!nombrePlato == '')){
+    if((!nombrePlato == '' && !precioPlato == isNaN(precioPlato))){
         fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -54,7 +54,7 @@ const registarPlato = async() =>{
         })
     }
     else{
-        alert('El nombre debe ser obligatorio')
+        alert('Nombre o Precio incorrecto')
     }
 }
 

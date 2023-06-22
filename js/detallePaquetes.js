@@ -36,7 +36,7 @@ const registrarDetalle = async() => {
         cantidad: cantidad,
     }
 
-    if (idPaquete !== '' && tipoPa !== '' && cantidad !== '') {
+    if (idPaquete !== '' && tipoPa !== '' && parseFloat(cantidad) >= 0) {
         fetch(url, {
             method: 'POST',
             mode: 'cors',
