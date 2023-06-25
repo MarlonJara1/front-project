@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/plato'
+const url = 'https://back-cnji.onrender.com/api/plato'
 const listarPlato = async() => {
     let body = document.getElementById('contenido')
     if(body){
@@ -52,6 +52,7 @@ const registarPlato = async() =>{
         })
         .then(response => response.json())
         .then(json => {
+<<<<<<< HEAD
            Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
@@ -59,6 +60,11 @@ const registarPlato = async() =>{
             }).then(() => {
                 window.location.href = 'listarPla.html';
             });
+=======
+           alert(json.mensaje)
+            window.location.href = 'listarPla.html'
+
+>>>>>>> f8c8967d44acd51868e9fbcf032c4ecf60459519
         })
     }
     else{
@@ -111,6 +117,7 @@ const actualizarPlato = async() =>{
         })
         .then(response => response.json())
         .then(json => {
+<<<<<<< HEAD
             Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
@@ -118,6 +125,11 @@ const actualizarPlato = async() =>{
             }).then(() => {
                 location.reload();
             });
+=======
+           alert(json.mensaje)
+            window.location.href = 'listarPla.html'
+
+>>>>>>> f8c8967d44acd51868e9fbcf032c4ecf60459519
         })
     }
     else{

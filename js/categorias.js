@@ -62,7 +62,8 @@ const registrarCategorias = async () => {
                 title: 'Error',
                 text: 'Verifica los datos ingresados'
             });
-    }
+
+        } 
 }
 
 
@@ -119,9 +120,8 @@ const actualizarCategoria = async() =>{
                 title: 'Error',
                 text: 'Verifica los datos ingresados'
             });
-    }
 }
-
+}
 const eliminar = (_id) => {
     Swal.fire({
         title: '¿Está seguro de realizar la eliminación?',

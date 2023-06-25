@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/detalle'
+const url = 'https://back-cnji.onrender.com/api/detalle'
 const listarDetalle = async() => {
     let body = document.getElementById('contenido')
     if(body){
@@ -52,7 +52,7 @@ const registrarDetalle = async() => {
                 text: json.mensaje
             }).then(() => {
                 window.location.href = 'listarDe.html';
-            });
+            });        
         })
     }
     else {

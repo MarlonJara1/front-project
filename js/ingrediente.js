@@ -1,4 +1,4 @@
-const url = 'http://localhost:8181/api/ingrediente'
+const url = 'https://back-cnji.onrender.com/api/ingrediente'
 const listarIngredientes = async() => {
     let body = document.getElementById('contenido')
     if(body){
@@ -58,6 +58,7 @@ const registrarIngrediente = async() => {
                 window.location.href = 'listarIng.html'
             });
             
+
         })
     }else{
     Swal.fire({
@@ -111,6 +112,7 @@ const actualizarIngrediente = async() =>{
         })
         .then(response => response.json())
         .then(json => {
+
             Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
@@ -118,7 +120,6 @@ const actualizarIngrediente = async() =>{
             }).then(() => {
                 location.reload();
             });
-            
         })
     }
     Swal.fire({
