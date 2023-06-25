@@ -52,7 +52,6 @@ const registrarPaquete = async() =>{
         })
         .then(response => response.json())
         .then(json => {
-<<<<<<< HEAD
             Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
@@ -60,11 +59,6 @@ const registrarPaquete = async() =>{
             }).then(() => {
                 window.location.href = 'listarPa.html'
             });
-=======
-           alert(json.mensaje)
-            window.location.href = 'listarPa.html'
-
->>>>>>> f8c8967d44acd51868e9fbcf032c4ecf60459519
         })
     }
     else{
@@ -117,19 +111,13 @@ const actualizarPaquete = async() =>{
         })
         .then(response => response.json())
         .then(json => {
-<<<<<<< HEAD
-            Swal.fire({
+                Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
                 text: json.mensaje
             }).then(() => {
                 location.reload()
             });
-=======
-           alert(json.mensaje)
-            window.location.href = 'listarPa.html'
-
->>>>>>> f8c8967d44acd51868e9fbcf032c4ecf60459519
         })
     }
     else{
