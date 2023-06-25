@@ -14,7 +14,7 @@ const listarCategorias = async() => {
                 `<td>${categorias.descripcionCategoria}</td>`+
                 `<td>${categorias.estadoCategoria === 'Activo' ? 'Activo' : 'Inactivo'}</td>`+
                 `<td><a class="waves-effect waves-light btn modal-trigger" href="#idModal1" onclick='editar(${JSON.stringify(categorias)})'>Editar</a>
-                 <a class="waves-effect waves-light btn modal-trigger red" href="listarCa.html" onclick='eliminar("${categorias._id}")'>Eliminar</a>
+                 <a class="waves-effect waves-light btn modal-trigger red" href="#" onclick='eliminar("${categorias._id}")'>Eliminar</a>
                 </td></tr>`
                 body.innerHTML = mensaje    
             }   
@@ -25,7 +25,7 @@ const listarCategorias = async() => {
 
 listarCategorias()
 
-const registrarCategorias = async() => {
+const registrarCategorias = async () => {
     let nombreCategoria = document.getElementById('nombreCategoria').value
     let descripcionCategoria = document.getElementById('descripcionCategoria').value
     let estadoCategoria = document.getElementById('estadoCategoria').value
@@ -36,24 +36,35 @@ const registrarCategorias = async() => {
         estadoCategoria: estadoCategoria,
     }
 
-    let nombreRegex = /^[a-zA-Z\s]+$/
+    let nombreRegex = /^[a-zA-ZñÑ\s]+$/
 
-    if (nombreCategoria !== '' && nombreRegex.test(nombreCategoria)) {
+    if (nombreRegex.test(nombreCategoria)) {
         fetch(url, {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(categoria),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
+            headers: { "Content-type": "application/json; charset=UTF-8" }
         })
-        .then(response => response.json())
-        .then(json => {
-            alert(json.mensaje)
-        })
-    }
-    else {
-        alert('Verifica los datos ingresados')
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    window.location.href = 'listarCa.html';
+                });
+            })
+         }
+            else {
+                 Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Verifica los datos ingresados'
+            });
     }
 }
+
 
 
 const editar = (categoria) =>{
@@ -81,42 +92,69 @@ const actualizarCategoria = async() =>{
         descripcionCategoria: descripcionCategoria,
         estadoCategoria: estadoCategoria,
     }
+    let nombreRegex = /^[a-zA-ZñÑ\s]+$/
 
-    if(!nombreCategoria == ''){
+    if (nombreRegex.test(nombreCategoria)) {
         fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            body:JSON.stringify(categoria),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
+            body: JSON.stringify(categoria),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
         })
-        .then(response => response.json()) 
-        .then(json => {
-           alert(json.mensaje)
-        })
-    }
-    else{
-        alert('El nombre es obligatorio')
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    location.reload();
+                });
+                
+            })
+         }
+            else {
+                 Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Verifica los datos ingresados'
+            });
     }
 }
 
-const eliminar =(_id) => {
-    if(confirm('¿Está seguro de realizar la eliminación?') == true){
-    let categoria = {
-        _id: _id
-    }
-    
-       fetch(url, {
-            method: 'DELETE',
-            mode: 'cors',
-            body:JSON.stringify(categoria),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
-        })
-        .then(response => response.json()) 
-        .then(json => {
-           alert(json.mensaje)
-        })     
-    }
+const eliminar = (_id) => {
+    Swal.fire({
+        title: '¿Está seguro de realizar la eliminación?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let categoria = {
+                _id: _id
+            }
+
+            fetch(url, {
+                method: 'DELETE',
+                mode: 'cors',
+                body: JSON.stringify(categoria),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    location.reload();
+                });
+            })
+        }
+    });
 }
+
 
 if(document.querySelector('#btnRegistrarCa'))
 {

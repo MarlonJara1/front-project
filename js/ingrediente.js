@@ -15,7 +15,7 @@ const listarIngredientes = async() => {
                 `<td>${ingredientes.precioIngrediente}</td>`+
                 `<td>${ingredientes.estadoIngrediente === 'Activo' ? 'Activo' : 'Inactivo'}</td>`+
                 `<td><a class="waves-effect waves-light btn modal-trigger" href="#idModal2" onclick='editar(${JSON.stringify(ingredientes)})'>Editar</a>
-                 <a class="waves-effect waves-light btn modal-trigger red" href="listarIng.html" onclick='eliminar("${ingredientes._id}")'>Eliminar</a>
+                 <a class="waves-effect waves-light btn modal-trigger red" href="#" onclick='eliminar("${ingredientes._id}")'>Eliminar</a>
                 </td></tr>`
                 body.innerHTML = mensaje
             }   
@@ -50,12 +50,22 @@ const registrarIngrediente = async() => {
         })
         .then(response => response.json())
         .then(json => {
-            alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                window.location.href = 'listarIng.html'
+            });
+            
         })
-    }
-    else {
-        alert('Verifica los datos ingresados')
-    }
+    }else{
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Verifica los datos ingresados'
+    });
+}
 }
 
 
@@ -89,40 +99,66 @@ const actualizarIngrediente = async() =>{
         estadoIngrediente: estadoIngrediente,
     }
 
-    if((!nombreIngrediente == '')){
+   
+    let nombreRegex = /^[a-zA-Z\s]+$/
+
+    if (nombreIngrediente !== '' && nombreRegex.test(nombreIngrediente) && parseFloat(precioIngrediente) >= 0) {
         fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            body:JSON.stringify(ingrediente),
+            body: JSON.stringify(ingrediente),
             headers: {"Content-type": "application/json; charset=UTF-8"}     
         })
         .then(response => response.json())
         .then(json => {
-           alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                location.reload();
+            });
+            
         })
     }
-    else{
-        alert('El nombre es obligatorio')
-    }
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Verifica los datos ingresados'
+    });
 }
 
 const eliminar =(_id) => {
-    if(confirm('¿Está seguro de realizar la eliminación?') == true){
-    let ingrediente = {
-        _id: _id
-    }
-    
-       fetch(url, {
-            method: 'DELETE',
-            mode: 'cors',
-            body:JSON.stringify(ingrediente),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
-        })
-        .then(response => response.json()) 
-        .then(json => {
-           alert(json.mensaje)
-        })     
-    }
+    Swal.fire({
+        title: '¿Está seguro de realizar la eliminación?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let ingrediente = {
+                _id: _id
+            }
+
+            fetch(url, {
+                method: 'DELETE',
+                mode: 'cors',
+                body: JSON.stringify(ingrediente),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    location.reload();
+                });
+            })
+        }
+    });
 }
 
 if(document.querySelector('#btnRegistrarIng'))

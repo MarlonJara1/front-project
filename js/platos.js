@@ -15,7 +15,7 @@ const listarPlato = async() => {
                 `<td>${platos.precioPlato}</td>`+
                 `<td>${platos.estadoPlato === 'Activo' ? 'Activo' : 'Inactivo'}</td>`+
                 `<td><a class="waves-effect waves-light btn modal-trigger" href="#idModal3" onclick='editar(${JSON.stringify(platos)})'>Editar</a>
-                 <a class="waves-effect waves-light btn modal-trigger red" href="listarPla.html" onclick='eliminar("${platos._id}")'>Eliminar</a>
+                 <a class="waves-effect waves-light btn modal-trigger red" href="#" onclick='eliminar("${platos._id}")'>Eliminar</a>
                 </td></tr>`
                 body.innerHTML = mensaje
             }   
@@ -41,7 +41,9 @@ const registarPlato = async() =>{
         estadoPlato: estadoPlato,
     }
 
-    if((!nombrePlato == '' && !precioPlato == isNaN(precioPlato))){
+    let nombreRegex = /^[a-zA-ZñÑ\s]+$/
+
+    if(nombrePlato !== '' && nombreRegex.test(nombrePlato) && parseFloat(precioPlato) >= 0){
         fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -50,11 +52,21 @@ const registarPlato = async() =>{
         })
         .then(response => response.json())
         .then(json => {
-           alert(json.mensaje)
+           Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                window.location.href = 'listarPla.html';
+            });
         })
     }
     else{
-        alert('Nombre o Precio incorrecto')
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Verifica los datos ingresados'
+        });
     }
 }
 
@@ -88,7 +100,9 @@ const actualizarPlato = async() =>{
         estadoPlato: estadoPlato,
     }
 
-    if((!nombrePlato == '')){
+    let nombreRegex = /^[a-zA-ZñÑ\s]+$/
+
+    if(nombrePlato !== '' && nombreRegex.test(nombrePlato) && parseFloat(precioPlato) >= 0){
         fetch(url, {
             method: 'PUT',
             mode: 'cors',
@@ -97,31 +111,55 @@ const actualizarPlato = async() =>{
         })
         .then(response => response.json())
         .then(json => {
-           alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                location.reload();
+            });
         })
     }
     else{
-        alert('El nombre es obligatorio')
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Verifica los datos ingresados'
+        });
     }
 }
 
 const eliminar =(_id) => {
-    if(confirm('¿Está seguro de realizar la eliminación?') == true){
-    let plato = {
-        _id: _id
-    }
-    
-       fetch(url, {
-            method: 'DELETE',
-            mode: 'cors',
-            body:JSON.stringify(plato),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
-        })
-        .then(response => response.json()) 
-        .then(json => {
-           alert(json.mensaje)
-        })     
-    }
+    Swal.fire({
+        title: '¿Está seguro de realizar la eliminación?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let plato = {
+                _id: _id
+            }
+
+            fetch(url, {
+                method: 'DELETE',
+                mode: 'cors',
+                body: JSON.stringify(plato),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    location.reload();
+                });
+            })
+        }
+    });
 }
 
 if(document.querySelector('#btnRegistrarPla'))

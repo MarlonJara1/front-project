@@ -15,7 +15,7 @@ const listarPaquete = async() => {
                 `<td>${paquete.precioPaquete}</td>`+
                 `<td>${paquete.estadoPaquete === 'Activo' ? 'Activo' : 'Inactivo'}</td>`+
                 `<td><a class="waves-effect waves-light btn modal-trigger" href="#idModal4" onclick='editar(${JSON.stringify(paquete)})'>Editar</a>
-                 <a class="waves-effect waves-light btn modal-trigger red" href="listarPa.html" onclick='eliminar("${paquete._id}")'>Eliminar</a>
+                 <a class="waves-effect waves-light btn modal-trigger red" href="#" onclick='eliminar("${paquete._id}")'>Eliminar</a>
                 </td></tr>`
                 body.innerHTML = mensaje
             }   
@@ -41,7 +41,9 @@ const registrarPaquete = async() =>{
         estadoPaquete: estadoPaquete,   
     }
 
-    if((!nombrePaquete == '')){
+    let nombreRegex = /^[a-zA-ZñÑ\s]+$/
+
+    if(nombrePaquete !== '' && nombreRegex.test(nombrePaquete) && parseFloat(precioPaquete) >= 0){
         fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -50,11 +52,21 @@ const registrarPaquete = async() =>{
         })
         .then(response => response.json())
         .then(json => {
-           alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                window.location.href = 'listarPa.html'
+            });
         })
     }
     else{
-        alert('El nombre debe ser obligatorio')
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Verifica los datos ingresados'
+        });
     }
 }
 
@@ -88,7 +100,9 @@ const actualizarPaquete = async() =>{
         estadoPaquete: estadoPaquete,
     }
 
-    if((!nombrePaquete == '')){
+    let nombreRegex = /^[a-zA-ZñÑ\s]+$/
+
+    if(nombrePaquete !== '' && nombreRegex.test(nombrePaquete) && parseFloat(precioPaquete) >= 0){
         fetch(url, {
             method: 'PUT',
             mode: 'cors',
@@ -97,31 +111,55 @@ const actualizarPaquete = async() =>{
         })
         .then(response => response.json())
         .then(json => {
-           alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                location.reload()
+            });
         })
     }
     else{
-        alert('El nombre es obligatorio')
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Verifica los datos ingresados'
+        });
     }
 }
 
 const eliminar =(_id) => {
-    if(confirm('¿Está seguro de realizar la eliminación?') == true){
-    let paquete = {
-        _id: _id
-    }
-    
-       fetch(url, {
-            method: 'DELETE',
-            mode: 'cors',
-            body:JSON.stringify(paquete),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
-        })
-        .then(response => response.json()) 
-        .then(json => {
-           alert(json.mensaje)
-        })     
-    }
+    Swal.fire({
+        title: '¿Está seguro de realizar la eliminación?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let paquete = {
+                _id: _id
+            }
+
+            fetch(url, {
+                method: 'DELETE',
+                mode: 'cors',
+                body: JSON.stringify(paquete),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    location.reload();
+                });
+            })
+        }
+    });
 }
 
 if(document.querySelector('#btnRegistrarPa'))

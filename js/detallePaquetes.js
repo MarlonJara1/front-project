@@ -14,7 +14,7 @@ const listarDetalle = async() => {
                 `<td>${detalle.tipoPa}</td>`+
                 `<td>${detalle.cantidad}</td>`+
                 `<td><a class="waves-effect waves-light btn modal-trigger" href="#idModal5" onclick='editar(${JSON.stringify(detalle)})'>Editar</a>
-                 <a class="waves-effect waves-light btn modal-trigger red" href="listarCa.html" onclick='eliminar("${detalle._id}")'>Eliminar</a>
+                 <a class="waves-effect waves-light btn modal-trigger red" href="#" onclick='eliminar("${detalle._id}")'>Eliminar</a>
                 </td></tr>`
                 body.innerHTML = mensaje    
             }   
@@ -24,6 +24,7 @@ const listarDetalle = async() => {
 }
 
 listarDetalle()
+
 
 const registrarDetalle = async() => {
     let idPaquete = document.getElementById('idPaquete').value
@@ -45,12 +46,22 @@ const registrarDetalle = async() => {
         })
         .then(response => response.json())
         .then(json => {
-            alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                window.location.href = 'listarDe.html';
+            });
         })
     }
     else {
-        alert('No se puede crear, por favor ingrese los datos')
-    }
+        Swal.fire({
+       icon: 'error',
+       title: 'Error',
+       text: 'Verifica los datos ingresados'
+   });
+}
 }
 
 
@@ -80,40 +91,64 @@ const actualizarDetalle = async() =>{
         cantidad: cantidad,
     }
 
-    if(idPaquete !== '' && tipoPa !== '' && cantidad !== ''){
+    if (idPaquete !== '' && tipoPa !== '' && parseFloat(cantidad) >= 0) {
         fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            body:JSON.stringify(detalle),
+            body: JSON.stringify(detalle),
             headers: {"Content-type": "application/json; charset=UTF-8"}     
         })
-        .then(response => response.json()) 
+        .then(response => response.json())
         .then(json => {
-           alert(json.mensaje)
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: json.mensaje
+            }).then(() => {
+                location.reload()
+            });
         })
     }
-    else{
-        alert('No se puede editar, por favor ingrese los datos')
-    }
+    else {
+        Swal.fire({
+       icon: 'error',
+       title: 'Error',
+       text: 'Verifica los datos ingresados'
+   });
+}
 }
 
 const eliminar =(_id) => {
-    if(confirm('¿Está seguro de realizar la eliminación?') == true){
-    let detalle = {
-        _id: _id
-    }
-    
-       fetch(url, {
-            method: 'DELETE',
-            mode: 'cors',
-            body:JSON.stringify(detalle),
-            headers: {"Content-type": "application/json; charset=UTF-8"}     
-        })
-        .then(response => response.json()) 
-        .then(json => {
-           alert(json.mensaje)
-        })     
-    }
+    Swal.fire({
+        title: '¿Está seguro de realizar la eliminación?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let detalle = {
+                _id: _id
+            }
+
+            fetch(url, {
+                method: 'DELETE',
+                mode: 'cors',
+                body: JSON.stringify(detalle),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            .then(response => response.json())
+            .then(json => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: json.mensaje
+                }).then(() => {
+                    location.reload();
+                });
+            })
+        }
+    });
 }
 
 if(document.querySelector('#btnRegistrarDe'))
